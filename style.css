@@ -1,0 +1,189 @@
+body {
+    font-family: "Segoe UI Variable", "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #f5f5f5; /* Fluent neutral background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: #ffffff; /* Fluent card background */
+    padding: 24px; /* Fluent padding */
+    border-radius: 8px; /* Fluent rounded corners */
+    box-shadow: 0 1.6px 3.6px 0 rgba(0,0,0,.132), 0 .3px .9px 0 rgba(0,0,0,.108); /* Fluent shadow */
+    width: 100%;    max-width: 360px; /* Adjusted for a more compact Fluent look */
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh; /* Restored to original height as specified */
+}
+
+h2 {
+    font-size: 20px; /* Fluent title size */
+    font-weight: 600; /* Fluent semi-bold */
+    margin-top: 0;
+    margin-bottom: 24px;
+    color: #1f1f1f; /* Fluent primary text color */
+}
+
+.agent-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Reduced gap for a tighter list */
+    overflow-y: auto; /* Enable vertical scrolling */
+    flex-grow: 1; /* Take available space in the container */
+    padding-right: 4px; /* Add padding to prevent content from touching scrollbar */
+    scroll-behavior: smooth; /* Add smooth scrolling effect */
+    -webkit-overflow-scrolling: touch; /* Improved scrolling on iOS devices */
+}
+
+/* Adding styles for the scrollbar */
+.agent-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.agent-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.agent-list::-webkit-scrollbar-thumb {
+    background: #c8c6c4;
+    border-radius: 4px;
+}
+
+.agent-list::-webkit-scrollbar-thumb:hover {
+    background: #8a8886;
+}
+
+.agent-item {
+    display: flex;
+    flex-direction: column; /* Stack agent info/button and error message vertically */
+    justify-content: space-between;
+    padding: 0 0 8px 0; /* Reverted to original padding */
+    border-bottom: 1px solid #e0e0e0; /* Fluent separator */
+    transition: padding-bottom 0.3s ease-in-out, max-height 0.3s ease-in-out; /* Added max-height transition */
+    overflow: hidden; /* Needed for max-height transition to work well */
+    max-height: 100px; /* Initial max-height, adjust as needed */
+}
+
+.agent-item:last-child {
+    border-bottom: none;
+}
+
+.agent-info {
+    display: flex;
+    align-items: center;
+    gap: 16px; /* Fluent spacing */
+}
+
+.agent-logo {
+    width: 42px;
+    height: 42px; /* Updated to be a perfect square */
+    margin-right: 0px; /* Updated for 16px gap via parent flex 'gap' */
+    flex-shrink: 0; /* Prevent shrinking in flex container */
+}
+
+.agent-name {
+    font-size: 14px; /* Fluent body text size */
+    font-weight: 600;
+    color: #1f1f1f;
+}
+
+.agent-publisher {
+    font-size: 12px; /* Fluent secondary text size */
+    color: #605e5c; /* Fluent secondary text color */
+}
+
+.agent-info-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Ensure it takes full width */
+}
+
+.add-to-plan-btn {
+    background-color: #ffffff; /* Fluent secondary button background */
+    color: #000000; /* Changed from #0078d4 to black */
+    border: 1px solid #c8c6c4; /* Fluent button border */
+    padding: 0 12px; /* Adjusted padding, vertical padding handled by height + flex */
+    border-radius: 4px; /* Fluent rounded corners */
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 420; /* Reduced from 600 (30% reduction) */
+    transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out; /* Removed transform from transition */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 110px; /* Fixed width to prevent text wrapping */
+    height: 30px; /* Fixed height */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide any overflow text */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+}
+
+.add-to-plan-btn:hover {
+    background-color: #f0f0f0; /* Fluent hover state */
+    border-color: #8a8886;
+    color: #005a9e;
+}
+
+.add-to-plan-btn:active {
+    background-color: #e0e0e0; /* Fluent active state */
+    border-color: #605e5c;
+    color: #004578;
+}
+
+.add-to-plan-btn.loading .spinner {
+    border: 2px solid #f0f0f0; /* Light grey for spinner track */
+    border-top: 2px solid #0078d4; /* Blue for spinner active part */
+    border-radius: 50%;
+    width: 16px;  /* Spinner size */
+    height: 16px; /* Spinner size */
+    animation: spin 1s linear infinite;
+    display: inline-block; /* Ensure spinner is properly displayed */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.add-to-plan-btn.added {
+    background-color: #f0f0f0; /* Light grey, similar to hover but distinct */
+    color: #605e5c; /* Grey text */
+    border-color: #d1d1d1; /* Lighter grey border */
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    text-align: right;
+    width: 100%;
+    padding-top: 8px; /* Space between button and error message */
+    display: none; /* Hidden by default */
+}
+
+.footer-text {
+    margin-top: 24px;
+    font-size: 12px;
+    color: #605e5c;
+    text-align: left; /* Align to left as per common Fluent patterns */
+    flex-shrink: 0; /* Prevent the footer from shrinking when content grows */
+}
+
+.footer-text a {
+    color: #0078d4;
+    text-decoration: none;
+    font-weight: 600; /* Emphasize link */
+}
+
+.footer-text a:hover {
+    text-decoration: underline;
+    color: #005a9e;
+}
