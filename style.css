@@ -1,83 +1,258 @@
 body {
     font-family: "Segoe UI Variable", "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
     background-color: #f5f5f5; /* Fluent neutral background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
     margin: 0;
     padding: 20px;
     box-sizing: border-box;
 }
 
-.container {
-    background-color: #ffffff; /* Fluent card background */
-    padding: 24px; /* Fluent padding */
-    border-radius: 8px; /* Fluent rounded corners */
-    box-shadow: 0 1.6px 3.6px 0 rgba(0,0,0,.132), 0 .3px .9px 0 rgba(0,0,0,.108); /* Fluent shadow */
-    width: 100%;    max-width: 360px; /* Adjusted for a more compact Fluent look */
+/* Base Container Styles */
+.base-container {
+    position: relative;
+    background-color: #ffffff;
+    padding: 20px; /* Set to 20px as specified */
+    border-radius: 8px;
+    box-shadow: 0 1.6px 3.6px 0 rgba(0,0,0,.132), 0 .3px .9px 0 rgba(0,0,0,.108);
+    width: 600px; /* Changed from 720px to 600px */
+    height: 820px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.header-component {
+    margin-bottom: 24px; /* Space between header and content */
+    padding: 12px;
+    box-sizing: border-box; /* Ensure padding is included in element's total width/height */
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.header-content h1 {
+    font-size: 16pt;
+    font-weight: 600;
+    color: #1f1f1f;
+    margin: 0;
+}
+
+.add-agents-btn {
+    background-color: #ffffff; /* Match add-to-plan-btn style */
+    color: #000000; /* Black text like other buttons */
+    border: 1px solid #c8c6c4; /* Fluent button border */
+    padding: 0 12px; /* Adjusted padding, vertical padding handled by height + flex */
+    border-radius: 4px; /* Fluent rounded corners */
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 420; /* Reduced from 600 (30% reduction) */
+    transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 110px; /* Fixed width to prevent text wrapping */
+    height: 30px; /* Fixed height */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide any overflow text */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+}
+
+.add-agents-btn:hover {
+    background-color: #f0f0f0; /* Fluent hover state */
+    border-color: #8a8886;
+    color: #005a9e;
+}
+
+.add-agents-btn:active {
+    background-color: #e0e0e0; /* Fluent active state */
+    border-color: #605e5c;
+    color: #004578;
+}
+
+.content {
+    padding: 0; /* No padding to allow agent items to span full width */
     display: flex;
     flex-direction: column;
-    max-height: 90vh; /* Restored to original height as specified */
+    gap: 0; /* Remove gap between agent items */
+    overflow-y: auto;
+    max-height: calc(100% - 80px);
+}
+
+.added-agent-item {
+    display: flex; /* Using flex for precise vertical control */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center content vertically */
+    padding: 12px; /* Even padding all around */
+    /* border-bottom: 1px solid #e0e0e0; - Removed border */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.5s ease-out forwards;
+    width: 100%; /* Full width to match the header */
+    position: relative; /* Enable absolute positioning of the bin icon */
+    transition: all 0.3s ease-out;
+    min-height: 66px; /* (42px content + 12px padding top/bottom) */
+    box-sizing: border-box; /* Include padding in height calculation */
+    overflow: hidden; /* Ensure smooth height animations */
+}
+
+.added-agent-item:hover {
+    background-color: #f5f5f5;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.05);
+}
+
+/* Bin icon styles - Fluent Design style */
+.delete-bin {
+    position: absolute;
+    right: 32px; /* Position exactly 32px from the right edge of the container */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    /* Updated Fluent Design style trash bin icon with more subtle, cleaner lines */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23757575' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 5H4M12.5 5V3.5C12.5 3.22386 12.2761 3 12 3H8C7.72386 3 7.5 3.22386 7.5 3.5V5M14.5 5V16.5C14.5 16.7761 14.2761 17 14 17H6C5.72386 17 5.5 16.7761 5.5 16.5V5M8 8.5V13.5M12 8.5V13.5'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.25s ease;
+}
+
+.added-agent-item:hover .delete-bin {
+    opacity: 1;
+}
+
+.delete-bin:hover {
+    /* Darkened icon on hover (using #333333 for a darker gray) instead of red */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23333333' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 5H4M12.5 5V3.5C12.5 3.22386 12.2761 3 12 3H8C7.72386 3 7.5 3.22386 7.5 3.5V5M14.5 5V16.5C14.5 16.7761 14.2761 17 14 17H6C5.72386 17 5.5 16.7761 5.5 16.5V5M8 8.5V13.5M12 8.5V13.5'/%3E%3C/svg%3E");
+    transform: translateY(-50%) scale(1.1);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes removeAgent {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        max-height: 100px;
+    }
+    30% {
+        opacity: 0.7;
+        transform: translateY(10px) scale(0.98);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.95);
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+/* Agents Tray (Popover) Styles */
+.tray-container {
+    display: none; /* Hidden by default, will be shown via JavaScript */
+    position: absolute;
+    top: 80px;
+    right: 24px;
+    background-color: #ffffff;
+    padding: 24px 0 0 0;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0,0,0,.15);
+    width: 100%;
+    max-width: 360px;
+    z-index: 1000;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Hide the original container since we're using tray-container now */
+.container {
+    display: none;
 }
 
 h2 {
-    font-size: 20px; /* Fluent title size */
+    font-size: 14px; /* Reduced from 20px to 14px as requested */
     font-weight: 600; /* Fluent semi-bold */
     margin-top: 0;
-    margin-bottom: 24px;
+    margin-bottom: 16px; /* Reduced margin since it's now inside the scrollable area */
+    padding-left: 0; /* No extra padding since agent-list handles it */
+    padding-right: 0; /* No extra padding since agent-list handles it */
     color: #1f1f1f; /* Fluent primary text color */
+    /* Title will scroll with content now that it's inside the agent-list */
 }
 
 .agent-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px; /* Reduced gap for a tighter list */
-    overflow-y: auto; /* Enable vertical scrolling */
-    flex-grow: 1; /* Take available space in the container */
-    padding-right: 4px; /* Add padding to prevent content from touching scrollbar */
-    scroll-behavior: smooth; /* Add smooth scrolling effect */
-    -webkit-overflow-scrolling: touch; /* Improved scrolling on iOS devices */
+    height: 450px;
+    max-height: 450px;
+    min-height: 450px;
+    overflow-y: scroll; /* Keep scrolling functionality */
+    padding: 0 24px 0 24px; /* Add horizontal padding for content alignment */
+    margin: 0; /* Remove all margins */
+    box-sizing: border-box;
+    position: relative;
+    /* Hide scrollbar but keep functionality */
+    -ms-overflow-style: none;  /* Internet Explorer and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
-/* Adding styles for the scrollbar */
+/* Hide scrollbar completely for WebKit browsers (Chrome, Safari, Opera) */
 .agent-list::-webkit-scrollbar {
-    width: 8px;
-}
-
-.agent-list::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-}
-
-.agent-list::-webkit-scrollbar-thumb {
-    background: #c8c6c4;
-    border-radius: 4px;
-}
-
-.agent-list::-webkit-scrollbar-thumb:hover {
-    background: #8a8886;
+    width: 0;
+    height: 0;
+    display: none;
 }
 
 .agent-item {
-    display: flex;
-    flex-direction: column; /* Stack agent info/button and error message vertically */
-    justify-content: space-between;
-    padding: 0 0 8px 0; /* Reverted to original padding */
-    border-bottom: 1px solid #e0e0e0; /* Fluent separator */
-    transition: padding-bottom 0.3s ease-in-out, max-height 0.3s ease-in-out; /* Added max-height transition */
-    overflow: hidden; /* Needed for max-height transition to work well */
-    max-height: 100px; /* Initial max-height, adjust as needed */
+    display: flex; /* Using flex for precise vertical control */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center content vertically */
+    padding: 12px 0; /* Vertical padding only */
+    /* border-bottom: 1px solid #e0e0e0; - Removed border */
+    margin: 0; /* Remove all margins */
+    transition: all 0.3s ease-in-out;
+    overflow: hidden; /* Needed for transition to work well */
+    box-sizing: border-box; /* Ensure padding is included in height calculation */
+    min-height: 66px; /* (42px content + 12px padding top/bottom) */
 }
 
-.agent-item:last-child {
-    border-bottom: none;
+.agent-item:hover {
+    background-color: #f5f5f5; /* Match the hover color from L2 */
+}
+
+.agent-item + .agent-item {
+    margin-top: 0; /* Remove spacing between agent items */
 }
 
 .agent-info {
     display: flex;
-    align-items: center;
-    gap: 16px; /* Fluent spacing */
+    align-items: center; /* Ensures vertical centering of the content */
+    gap: 12px; /* Gap between logo and text */
+    height: 42px; /* Fixed height matching logo size */
+    margin: 0; /* Remove any margins that could affect centering */
+}
+
+/* Add specific styling for the text container */
+.agent-info > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 42px; /* Match the agent-info height */
+    margin: 0; /* Remove any margins */
+    padding: 0; /* Remove any padding */
 }
 
 .agent-logo {
@@ -87,22 +262,87 @@ h2 {
     flex-shrink: 0; /* Prevent shrinking in flex container */
 }
 
+/* Added agent styles for L2 */
+.added-agent-item .agent-info {
+    display: flex;
+    align-items: center; /* Ensures vertical centering */
+    gap: 12px;
+    height: 42px; /* Fixed height to match .agent-info */
+    margin: 0; /* Remove any margins that could affect centering */
+}
+
+.added-agent-item .agent-info > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 42px; /* Match the agent-info height */
+    margin: 0; /* Remove any margins */
+    padding: 0; /* Remove any padding */
+}
+
+.added-agent-item .agent-logo {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+}
+
+.added-agent-item .agent-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f1f1f;
+    margin: 0; /* Remove all margins */
+    line-height: 1.2; /* Improve text alignment */
+    padding: 0;
+}
+
+.added-agent-item .agent-publisher {
+    font-size: 12px;
+    color: #605e5c;
+    line-height: 1.2; /* Improve text alignment */
+    margin: 0; /* Remove all margins */
+    padding: 0;
+}
+
+.added-agent-item .agent-info-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Ensures vertical centering of the content */
+    width: 100%;
+    height: 42px; /* Fixed height for consistent vertical spacing */
+    box-sizing: border-box; /* Include padding in height calculation */
+    margin: 0; /* Remove any default margins that might affect centering */
+    padding: 0; /* No padding needed as parent has proper padding */
+}
+
+.added-agent-item + .added-agent-item {
+    margin-top: 0; /* Remove spacing between added agent items */
+}
+
 .agent-name {
     font-size: 14px; /* Fluent body text size */
     font-weight: 600;
     color: #1f1f1f;
+    margin: 0; /* Remove all margins */
+    line-height: 1.2; /* Improve text alignment */
+    padding: 0;
 }
 
 .agent-publisher {
     font-size: 12px; /* Fluent secondary text size */
     color: #605e5c; /* Fluent secondary text color */
+    line-height: 1.2; /* Improve text alignment */
+    margin: 0; /* Remove all margins */
+    padding: 0;
 }
 
 .agent-info-button-wrapper {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center; /* This aligns items vertically in the center */
     width: 100%; /* Ensure it takes full width */
+    height: 42px; /* Fixed height for agent info wrapper */
+    box-sizing: border-box; /* Include padding in height calculation */
+    margin: 0; /* Remove any default margins that might affect centering */
 }
 
 .add-to-plan-btn {
@@ -165,25 +405,54 @@ h2 {
     font-size: 12px;
     text-align: right;
     width: 100%;
-    padding-top: 8px; /* Space between button and error message */
+    padding-top: 4px; /* Reduced space between button and error message */
     display: none; /* Hidden by default */
+    line-height: 1; /* Tighter line height for error message */
 }
 
 .footer-text {
-    margin-top: 24px;
-    font-size: 12px;
-    color: #605e5c;
-    text-align: left; /* Align to left as per common Fluent patterns */
+    margin-top: 0; /* Remove top margin as we'll control height with padding */
+    margin-left: 0; /* No left margin needed as we're right-aligning */
+    margin-right: 0; /* No right margin, we'll control with padding instead */
     flex-shrink: 0; /* Prevent the footer from shrinking when content grows */
+    padding: 16px 24px; /* Add padding to top, bottom and right to match agent-list padding */
+    height: 62px; /* Increased height to accommodate the button with 16px padding top and bottom */
+    box-sizing: border-box; /* Include padding in the height calculation */
+    display: flex;
+    align-items: center; /* Vertically center the button */
+    justify-content: flex-end; /* Right-align the button */
+    border-top: 1px solid #e0e0e0; /* Add stroke (border) to the top side */
 }
 
-.footer-text a {
-    color: #0078d4;
-    text-decoration: none;
-    font-weight: 600; /* Emphasize link */
+.get-more-agents-btn {
+    background-color: #ffffff; /* Match add-to-plan-btn style */
+    color: #000000; /* Black text like other buttons */
+    border: 1px solid #c8c6c4; /* Match add-to-plan-btn border */
+    padding: 0 16px; /* 16px padding on sides as requested */
+    border-radius: 4px; /* Fluent rounded corners */
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 420; /* Match add-to-plan-btn weight */
+    transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out;
+    height: 30px; /* Fixed button height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 130px; /* Slightly wider to accommodate "Get more agents" text */
+    box-sizing: border-box; /* Match add-to-plan-btn box-sizing */
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide any overflow text */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
 }
 
-.footer-text a:hover {
-    text-decoration: underline;
-    color: #005a9e;
+.get-more-agents-btn:hover {
+    background-color: #f0f0f0; /* Match add-to-plan-btn hover */
+    border-color: #8a8886; /* Match add-to-plan-btn hover border */
+    color: #005a9e; /* Match add-to-plan-btn hover text color */
+}
+
+.get-more-agents-btn:active {
+    background-color: #e0e0e0; /* Match add-to-plan-btn active */
+    border-color: #605e5c; /* Match add-to-plan-btn active border */
+    color: #004578; /* Match add-to-plan-btn active text color */
 }
