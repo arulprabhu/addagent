@@ -3,13 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Installed Agents</title>
+    <title>Agents</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="container">
-        <h2>Your installed agents</h2>
+<body>    <!-- Base Screen -->
+    <div class="base-container">
+        <div class="header-component">
+            <div class="header-content">
+                <h1>Agents</h1>
+                <button id="add-agents-btn" class="add-agents-btn">Add Agents</button>
+            </div>
+        </div>
+        <div class="content">
+            <!-- Content for base screen goes here -->
+        </div>
+    </div>
+
+    <!-- Agents Tray (Popover) -->
+    <div class="tray-container" id="agents-tray">
         <div class="agent-list">
+            <h2>Your installed agents</h2>
             <div class="agent-item">
                 <div class="agent-info-button-wrapper">
                     <div class="agent-info">
@@ -169,13 +182,13 @@
                     </div>
                     <button class="add-to-plan-btn">Add to plan</button>
                 </div>
-                <div class="error-message"></div>
-            </div>
-        </div>
+                <div class="error-message"></div>            </div>        </div>
         <div class="footer-text">
-            To get access to more agents, visit the <a href="#">Teams store</a>
+            <button class="get-more-agents-btn">Get more agents</button>
         </div>
     </div>
     <script src="script.js"></script>
 </body>
 </html>
+
+
