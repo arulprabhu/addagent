@@ -1,473 +1,298 @@
-body {
-    font-family: "Segoe UI Variable", "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background-color: #f5f5f5; /* Fluent neutral background */
-    margin: 0;
-    padding: 20px;
-    box-sizing: border-box;
-}
+// No JavaScript is strictly required for the basic layout and styling.
+// This file is included for potential future interactivity.
 
-/* Base Container Styles */
-.base-container {
-    position: relative;
-    background-color: #ffffff;
-    padding: 20px; /* Set to 20px as specified */
-    border-radius: 8px;
-    box-shadow: 0 1.6px 3.6px 0 rgba(0,0,0,.132), 0 .3px .9px 0 rgba(0,0,0,.108);
-    width: 600px; /* Changed from 720px to 600px */
-    height: 820px;
-    margin: 0 auto;
-    box-sizing: border-box;
-}
+// Example: You could add event listeners to the buttons if needed.
+// const buttons = document.querySelectorAll('.add-to-plan-btn');
+// buttons.forEach(button => {
+//     button.addEventListener('click', () => {
+//         console.log(button.closest('.agent-item').querySelector('.agent-name').textContent + ' "Add to plan" clicked');
+//         // Add your logic here, e.g., making an API call or updating the UI
+//     });
+// });
 
-.header-component {
-    margin-bottom: 24px; /* Space between header and content */
-    padding: 12px;
-    box-sizing: border-box; /* Ensure padding is included in element's total width/height */
-}
-
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.header-content h1 {
-    font-size: 16pt;
-    font-weight: 600;
-    color: #1f1f1f;
-    margin: 0;
-}
-
-.add-agents-btn {
-    background-color: #ffffff; /* Match add-to-plan-btn style */
-    color: #000000; /* Black text like other buttons */
-    border: 1px solid #c8c6c4; /* Fluent button border */
-    padding: 0 12px; /* Adjusted padding, vertical padding handled by height + flex */
-    border-radius: 4px; /* Fluent rounded corners */
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 420; /* Reduced from 600 (30% reduction) */
-    transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 110px; /* Fixed width to prevent text wrapping */
-    height: 30px; /* Fixed height */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide any overflow text */
-    text-overflow: ellipsis; /* Show ellipsis for overflow text */
-}
-
-.add-agents-btn:hover {
-    background-color: #f0f0f0; /* Fluent hover state */
-    border-color: #8a8886;
-    color: #005a9e;
-}
-
-.add-agents-btn:active {
-    background-color: #e0e0e0; /* Fluent active state */
-    border-color: #605e5c;
-    color: #004578;
-}
-
-.content {
-    padding: 0; /* No padding to allow agent items to span full width */
-    display: flex;
-    flex-direction: column;
-    gap: 0; /* Remove gap between agent items */
-    overflow-y: auto;
-    max-height: calc(100% - 80px);
-}
-
-.added-agent-item {
-    display: flex; /* Using flex for precise vertical control */
-    flex-direction: column; /* Stack children vertically */
-    justify-content: center; /* Center content vertically */
-    padding: 12px; /* Even padding all around */
-    /* border-bottom: 1px solid #e0e0e0; - Removed border */
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeIn 0.5s ease-out forwards;
-    width: 100%; /* Full width to match the header */
-    position: relative; /* Enable absolute positioning of the bin icon */
-    transition: all 0.3s ease-out;
-    min-height: 66px; /* (42px content + 12px padding top/bottom) */
-    box-sizing: border-box; /* Include padding in height calculation */
-    overflow: hidden; /* Ensure smooth height animations */
-}
-
-.added-agent-item:hover {
-    background-color: #f5f5f5;
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.05);
-}
-
-/* Bin icon styles - Fluent Design style */
-.delete-bin {
-    position: absolute;
-    right: 32px; /* Position exactly 32px from the right edge of the container */
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-    /* Updated Fluent Design style trash bin icon with more subtle, cleaner lines */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23757575' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 5H4M12.5 5V3.5C12.5 3.22386 12.2761 3 12 3H8C7.72386 3 7.5 3.22386 7.5 3.5V5M14.5 5V16.5C14.5 16.7761 14.2761 17 14 17H6C5.72386 17 5.5 16.7761 5.5 16.5V5M8 8.5V13.5M12 8.5V13.5'/%3E%3C/svg%3E");
-    background-size: contain;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    opacity: 0;
-    transition: all 0.25s ease;
-}
-
-.added-agent-item:hover .delete-bin {
-    opacity: 1;
-}
-
-.delete-bin:hover {
-    /* Darkened icon on hover (using #333333 for a darker gray) instead of red */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23333333' stroke-width='1.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 5H4M12.5 5V3.5C12.5 3.22386 12.2761 3 12 3H8C7.72386 3 7.5 3.22386 7.5 3.5V5M14.5 5V16.5C14.5 16.7761 14.2761 17 14 17H6C5.72386 17 5.5 16.7761 5.5 16.5V5M8 8.5V13.5M12 8.5V13.5'/%3E%3C/svg%3E");
-    transform: translateY(-50%) scale(1.1);
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+document.addEventListener('DOMContentLoaded', () => {
+    // Track added agents to sync between L2 and agents tray
+    const addedAgents = new Set();
+    
+    // Add delete bin to existing agent items
+    function addDeleteBinToAgentItem(agentItem) {
+        if (!agentItem.querySelector('.delete-bin')) {
+            const deleteBin = document.createElement('div');
+            deleteBin.className = 'delete-bin';
+            deleteBin.setAttribute('title', 'Remove agent');
+            deleteBin.addEventListener('click', function(event) {
+                event.stopPropagation();
+                // Get agent name before removal for syncing
+                const agentName = agentItem.querySelector('.agent-name').textContent;
+                
+                // Remove the agent item with improved smooth animation
+                // First shrink height slightly while fading
+                agentItem.style.transition = 'all 0.3s ease-in-out';
+                agentItem.style.opacity = '0';
+                agentItem.style.transform = 'translateY(10px) scale(0.98)';
+                agentItem.style.maxHeight = (agentItem.offsetHeight * 0.8) + 'px';
+                agentItem.style.overflow = 'hidden';
+                
+                setTimeout(() => {
+                    // Then smoothly collapse height to 0
+                    agentItem.style.transition = 'all 0.2s ease-in-out';
+                    agentItem.style.maxHeight = '0px';
+                    agentItem.style.padding = '0px';
+                    agentItem.style.margin = '0px';
+                      setTimeout(() => {
+                        // Remove agent from tracking set
+                        addedAgents.delete(agentName);
+                        agentItem.remove();
+                        
+                        // Update the tray agents visibility
+                        // Only update if the tray is visible
+                        if (agentsTray && agentsTray.style.display === 'flex') {
+                            updateAgentTrayItems();
+                        }
+                    }, 200);
+                }, 300);
+            });
+            agentItem.appendChild(deleteBin);
+        }
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+      // Add delete buttons to any existing agent items and track them
+    document.querySelectorAll('.added-agent-item').forEach(agentItem => {
+        const agentName = agentItem.querySelector('.agent-name').textContent;
+        if (agentName) {
+            addedAgents.add(agentName);
+        }
+        addDeleteBinToAgentItem(agentItem);
+    });    // Function to update agent tray items based on what's been added
+    function updateAgentTrayItems() {
+        const trayAgentItems = document.querySelectorAll('#agents-tray .agent-item');
+        const agentList = document.querySelector('.agent-list');
+        
+        // Check if we already have a message element
+        let noAgentsMessage = document.getElementById('no-agents-message');
+        
+        let visibleAgents = 0;
+        
+        trayAgentItems.forEach(item => {
+            const agentName = item.querySelector('.agent-name').textContent;
+            const addButton = item.querySelector('.add-to-plan-btn');
+            
+            if (addedAgents.has(agentName)) {
+                // Agent has been added, hide it entirely
+                item.style.display = 'none';
+            } else {
+                // Agent hasn't been added, ensure it's visible and reset button state
+                item.style.display = 'flex';
+                visibleAgents++;
+                if (addButton.classList.contains('added')) {
+                    addButton.innerHTML = 'Add to plan';
+                    addButton.classList.remove('added', 'loading');
+                    addButton.disabled = false;
+                }
+                item.classList.remove('agent-already-added');
+            }
+        });
+        
+        // Handle the case when all agents are added
+        if (visibleAgents === 0) {
+            if (!noAgentsMessage) {
+                noAgentsMessage = document.createElement('div');
+                noAgentsMessage.id = 'no-agents-message';
+                noAgentsMessage.className = 'no-agents-message';
+                noAgentsMessage.textContent = 'All available agents have been added';
+                agentList.appendChild(noAgentsMessage);
+            }
+            noAgentsMessage.style.display = 'block';
+        } else if (noAgentsMessage) {
+            noAgentsMessage.style.display = 'none';
+        }
     }
-}
-
-@keyframes removeAgent {
-    0% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        max-height: 100px;
+    
+    // Set up the add agents button to toggle the agents tray
+    const addAgentsBtn = document.getElementById('add-agents-btn');
+    const agentsTray = document.getElementById('agents-tray');
+    
+    if (addAgentsBtn && agentsTray) {
+        // Function to position the tray
+        function positionTray() {
+            const btnRect = addAgentsBtn.getBoundingClientRect();
+            agentsTray.style.top = (btnRect.bottom + 5) + 'px'; // 5px below the button
+            agentsTray.style.right = (window.innerWidth - btnRect.right) + 'px'; // Align right edge with button
+        }
+        
+        // Initially hide the Agents Tray
+        agentsTray.style.display = 'none';
+        
+        // Toggle the Agents Tray when the Add Agents button is clicked
+        addAgentsBtn.addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevent document click from immediately closing it
+            if (agentsTray.style.display === 'none' || !agentsTray.style.display) {
+                positionTray(); // Position the tray properly
+                updateAgentTrayItems(); // Update the tray before displaying
+                agentsTray.style.display = 'flex';
+            } else {
+                agentsTray.style.display = 'none';
+            }
+        });
+        
+        // Close the Agents Tray when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!agentsTray.contains(event.target) && !addAgentsBtn.contains(event.target)) {
+                agentsTray.style.display = 'none';
+            }
+        });
+        
+        // Add window resize handler
+        window.addEventListener('resize', function() {
+            if (agentsTray.style.display === 'flex') {
+                positionTray();
+            }
+        });
     }
-    30% {
-        opacity: 0.7;
-        transform: translateY(10px) scale(0.98);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(10px) scale(0.95);
-        max-height: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-        margin-top: 0;
-        margin-bottom: 0;
-    }
-}
+    // Set up the agent list with scrolling but no visible scrollbar
+    const agentList = document.querySelector('.agent-list');
+    
+    // Set inline styles to ensure scrolling works with no visible scrollbar
+    agentList.style.overflowY = 'scroll';
+    agentList.style.msOverflowStyle = 'none'; // Hide scrollbar in IE/Edge
+    agentList.style.scrollbarWidth = 'none'; // Hide scrollbar in Firefox
+    
+    // The footer border is now handled by CSS
+    
+    // Set up the Get more agents button
+    const getMoreAgentsBtn = document.querySelector('.get-more-agents-btn');
+    if (getMoreAgentsBtn) {
+        getMoreAgentsBtn.addEventListener('click', function() {
+            console.log('Get more agents button clicked');
+            // Add action logic here - e.g., navigate to store
+        });
+    }    // Set up the Add to plan buttons
+    const buttons = document.querySelectorAll('.add-to-plan-btn');
+    const contentSection = document.querySelector('.content');
 
-/* Agents Tray (Popover) Styles */
-.tray-container {
-    display: none; /* Hidden by default, will be shown via JavaScript */
-    position: absolute;
-    top: 80px;
-    right: 24px;
-    background-color: #ffffff;
-    padding: 24px 0 0 0;
-    border-radius: 8px;
-    box-shadow: 0 6px 12px rgba(0,0,0,.15);
-    width: 100%;
-    max-width: 360px;
-    z-index: 1000;
-    flex-direction: column;
-    box-sizing: border-box;
-}
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Store original text
+            const originalText = this.innerHTML;
+            const agentItem = this.closest('.agent-item');
+            const agentName = agentItem.querySelector('.agent-name').textContent;
+            const agentPublisher = agentItem.querySelector('.agent-publisher')?.textContent || '';
+            const agentLogo = agentItem.querySelector('svg').cloneNode(true);
 
-/* Hide the original container since we're using tray-container now */
-.container {
-    display: none;
-}
+            // Show spinner
+            this.innerHTML = '<span class="spinner"></span>';
+            this.classList.add('loading');
+            this.disabled = true; // Disable button during loading
 
-h2 {
-    font-size: 14px; /* Reduced from 20px to 14px as requested */
-    font-weight: 600; /* Fluent semi-bold */
-    margin-top: 0;
-    margin-bottom: 16px; /* Reduced margin since it's now inside the scrollable area */
-    padding-left: 0; /* No extra padding since agent-list handles it */
-    padding-right: 0; /* No extra padding since agent-list handles it */
-    color: #1f1f1f; /* Fluent primary text color */
-    /* Title will scroll with content now that it's inside the agent-list */
-}
-
-.agent-list {
-    height: 450px;
-    max-height: 450px;
-    min-height: 450px;
-    overflow-y: scroll; /* Keep scrolling functionality */
-    padding: 0 24px 0 24px; /* Add horizontal padding for content alignment */
-    margin: 0; /* Remove all margins */
-    box-sizing: border-box;
-    position: relative;
-    /* Hide scrollbar but keep functionality */
-    -ms-overflow-style: none;  /* Internet Explorer and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
-
-/* Hide scrollbar completely for WebKit browsers (Chrome, Safari, Opera) */
-.agent-list::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    display: none;
-}
-
-.agent-item {
-    display: flex; /* Using flex for precise vertical control */
-    flex-direction: column; /* Stack children vertically */
-    justify-content: center; /* Center content vertically */
-    padding: 12px 0; /* Vertical padding only */
-    /* border-bottom: 1px solid #e0e0e0; - Removed border */
-    margin: 0; /* Remove all margins */
-    transition: all 0.3s ease-in-out;
-    overflow: hidden; /* Needed for transition to work well */
-    box-sizing: border-box; /* Ensure padding is included in height calculation */
-    min-height: 66px; /* (42px content + 12px padding top/bottom) */
-}
-
-.agent-item:hover {
-    background-color: #f5f5f5; /* Match the hover color from L2 */
-}
-
-.agent-item + .agent-item {
-    margin-top: 0; /* Remove spacing between agent items */
-}
-
-.agent-info {
-    display: flex;
-    align-items: center; /* Ensures vertical centering of the content */
-    gap: 12px; /* Gap between logo and text */
-    height: 42px; /* Fixed height matching logo size */
-    margin: 0; /* Remove any margins that could affect centering */
-}
-
-/* Add specific styling for the text container */
-.agent-info > div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 42px; /* Match the agent-info height */
-    margin: 0; /* Remove any margins */
-    padding: 0; /* Remove any padding */
-}
-
-.agent-logo {
-    width: 42px;
-    height: 42px; /* Updated to be a perfect square */
-    margin-right: 0px; /* Updated for 16px gap via parent flex 'gap' */
-    flex-shrink: 0; /* Prevent shrinking in flex container */
-}
-
-/* Added agent styles for L2 */
-.added-agent-item .agent-info {
-    display: flex;
-    align-items: center; /* Ensures vertical centering */
-    gap: 12px;
-    height: 42px; /* Fixed height to match .agent-info */
-    margin: 0; /* Remove any margins that could affect centering */
-}
-
-.added-agent-item .agent-info > div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 42px; /* Match the agent-info height */
-    margin: 0; /* Remove any margins */
-    padding: 0; /* Remove any padding */
-}
-
-.added-agent-item .agent-logo {
-    width: 42px;
-    height: 42px;
-    flex-shrink: 0;
-}
-
-.added-agent-item .agent-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: #1f1f1f;
-    margin: 0; /* Remove all margins */
-    line-height: 1.2; /* Improve text alignment */
-    padding: 0;
-}
-
-.added-agent-item .agent-publisher {
-    font-size: 12px;
-    color: #605e5c;
-    line-height: 1.2; /* Improve text alignment */
-    margin: 0; /* Remove all margins */
-    padding: 0;
-}
-
-.added-agent-item .agent-info-button-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Ensures vertical centering of the content */
-    width: 100%;
-    height: 42px; /* Fixed height for consistent vertical spacing */
-    box-sizing: border-box; /* Include padding in height calculation */
-    margin: 0; /* Remove any default margins that might affect centering */
-    padding: 0; /* No padding needed as parent has proper padding */
-}
-
-.added-agent-item + .added-agent-item {
-    margin-top: 0; /* Remove spacing between added agent items */
-}
-
-.agent-name {
-    font-size: 14px; /* Fluent body text size */
-    font-weight: 600;
-    color: #1f1f1f;
-    margin: 0; /* Remove all margins */
-    line-height: 1.2; /* Improve text alignment */
-    padding: 0;
-}
-
-.agent-publisher {
-    font-size: 12px; /* Fluent secondary text size */
-    color: #605e5c; /* Fluent secondary text color */
-    line-height: 1.2; /* Improve text alignment */
-    margin: 0; /* Remove all margins */
-    padding: 0;
-}
-
-.agent-info-button-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* This aligns items vertically in the center */
-    width: 100%; /* Ensure it takes full width */
-    height: 42px; /* Fixed height for agent info wrapper */
-    box-sizing: border-box; /* Include padding in height calculation */
-    margin: 0; /* Remove any default margins that might affect centering */
-}
-
-.add-to-plan-btn {
-    background-color: #ffffff; /* Fluent secondary button background */
-    color: #000000; /* Changed from #0078d4 to black */
-    border: 1px solid #c8c6c4; /* Fluent button border */
-    padding: 0 12px; /* Adjusted padding, vertical padding handled by height + flex */
-    border-radius: 4px; /* Fluent rounded corners */
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 420; /* Reduced from 600 (30% reduction) */
-    transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out; /* Removed transform from transition */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 110px; /* Fixed width to prevent text wrapping */
-    height: 30px; /* Fixed height */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide any overflow text */
-    text-overflow: ellipsis; /* Show ellipsis for overflow text */
-}
-
-.add-to-plan-btn:hover {
-    background-color: #f0f0f0; /* Fluent hover state */
-    border-color: #8a8886;
-    color: #005a9e;
-}
-
-.add-to-plan-btn:active {
-    background-color: #e0e0e0; /* Fluent active state */
-    border-color: #605e5c;
-    color: #004578;
-}
-
-.add-to-plan-btn.loading .spinner {
-    border: 2px solid #f0f0f0; /* Light grey for spinner track */
-    border-top: 2px solid #0078d4; /* Blue for spinner active part */
-    border-radius: 50%;
-    width: 16px;  /* Spinner size */
-    height: 16px; /* Spinner size */
-    animation: spin 1s linear infinite;
-    display: inline-block; /* Ensure spinner is properly displayed */
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.add-to-plan-btn.added {
-    background-color: #f0f0f0; /* Light grey, similar to hover but distinct */
-    color: #605e5c; /* Grey text */
-    border-color: #d1d1d1; /* Lighter grey border */
-    cursor: not-allowed;
-}
-
-.error-message {
-    color: red;
-    font-size: 12px;
-    text-align: right;
-    width: 100%;
-    padding-top: 4px; /* Reduced space between button and error message */
-    display: none; /* Hidden by default */
-    line-height: 1; /* Tighter line height for error message */
-}
-
-.footer-text {
-    margin-top: 0; /* Remove top margin as we'll control height with padding */
-    margin-left: 0; /* No left margin needed as we're right-aligning */
-    margin-right: 0; /* No right margin, we'll control with padding instead */
-    flex-shrink: 0; /* Prevent the footer from shrinking when content grows */
-    padding: 16px 24px; /* Add padding to top, bottom and right to match agent-list padding */
-    height: 62px; /* Increased height to accommodate the button with 16px padding top and bottom */
-    box-sizing: border-box; /* Include padding in the height calculation */
-    display: flex;
-    align-items: center; /* Vertically center the button */
-    justify-content: flex-end; /* Right-align the button */
-    border-top: 1px solid #e0e0e0; /* Add stroke (border) to the top side */
-}
-
-.get-more-agents-btn {
-    background-color: #ffffff; /* Match add-to-plan-btn style */
-    color: #000000; /* Black text like other buttons */
-    border: 1px solid #c8c6c4; /* Match add-to-plan-btn border */
-    padding: 0 16px; /* 16px padding on sides as requested */
-    border-radius: 4px; /* Fluent rounded corners */
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 420; /* Match add-to-plan-btn weight */
-    transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out;
-    height: 30px; /* Fixed button height */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 130px; /* Slightly wider to accommodate "Get more agents" text */
-    box-sizing: border-box; /* Match add-to-plan-btn box-sizing */
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide any overflow text */
-    text-overflow: ellipsis; /* Show ellipsis for overflow text */
-}
-
-.get-more-agents-btn:hover {
-    background-color: #f0f0f0; /* Match add-to-plan-btn hover */
-    border-color: #8a8886; /* Match add-to-plan-btn hover border */
-    color: #005a9e; /* Match add-to-plan-btn hover text color */
-}
-
-.get-more-agents-btn:active {
-    background-color: #e0e0e0; /* Match add-to-plan-btn active */
-    border-color: #605e5c; /* Match add-to-plan-btn active border */
-    color: #004578; /* Match add-to-plan-btn active text color */
-}
-
-/* Style for agent items that have already been added */
-.agent-already-added {
-    opacity: 0.7;
-}
-
-/* Style for the message when all agents are added */
-.no-agents-message {
-    padding: 24px;
-    text-align: center;
-    color: #605e5c;
-    font-size: 14px;
-    font-style: italic;
-    margin-top: 20px;
-}
+            // Simulate network request
+            setTimeout(() => {
+                if (agentName === 'Miro') {
+                    const errorMessageDiv = agentItem.querySelector('.error-message');
+                    errorMessageDiv.textContent = 'Unable to add this agent';
+                    errorMessageDiv.style.display = 'block';
+                    agentItem.style.minHeight = '78px'; // Increase height to accommodate error message (66px + 12px for error)
+                    // Restore button to its original state or a specific error state if desired
+                    this.innerHTML = originalText; // Or something like 'Error'
+                    this.classList.remove('loading');
+                    this.disabled = false; // Re-enable or style as error
+                } else {
+                    // Add agent to tracking set
+                    addedAgents.add(agentName);
+                    
+                    // Update button state
+                    this.innerHTML = 'Added';
+                    this.classList.remove('loading');
+                    this.classList.add('added');
+                    this.disabled = true; // Button remains disabled
+                    
+                    // Update the agent item to show as added
+                    agentItem.classList.add('agent-already-added');
+                    
+                    // Add agent to L2 screen
+                    const newAgentItem = document.createElement('div');
+                    newAgentItem.className = 'added-agent-item';
+                    newAgentItem.setAttribute('data-agent-name', agentName);
+                    
+                    // Create agent info-button wrapper (to match the agent-tray structure)
+                    const wrapperDiv = document.createElement('div');
+                    wrapperDiv.className = 'agent-info-button-wrapper';
+                    
+                    // Create agent info
+                    const agentInfoDiv = document.createElement('div');
+                    agentInfoDiv.className = 'agent-info';
+                    
+                    // Add logo
+                    agentInfoDiv.appendChild(agentLogo);
+                    
+                    // Add text info with proper styling for vertical centering
+                    const textInfo = document.createElement('div');
+                    textInfo.style.display = 'flex';
+                    textInfo.style.flexDirection = 'column';
+                    textInfo.style.justifyContent = 'center';
+                    textInfo.style.height = '42px';
+                    textInfo.style.margin = '0';
+                    textInfo.style.padding = '0';
+                    
+                    const nameDiv = document.createElement('div');
+                    nameDiv.className = 'agent-name';
+                    nameDiv.textContent = agentName;
+                    
+                    const publisherDiv = document.createElement('div');
+                    publisherDiv.className = 'agent-publisher';
+                    publisherDiv.textContent = agentPublisher;
+                    
+                    textInfo.appendChild(nameDiv);
+                    textInfo.appendChild(publisherDiv);
+                    agentInfoDiv.appendChild(textInfo);
+                    wrapperDiv.appendChild(agentInfoDiv);
+                    newAgentItem.appendChild(wrapperDiv);
+                    
+                    // Add delete bin icon that shows on hover
+                    const deleteBin = document.createElement('div');
+                    deleteBin.className = 'delete-bin';
+                    deleteBin.setAttribute('title', 'Remove agent');
+                    deleteBin.addEventListener('click', function(event) {
+                        event.stopPropagation();
+                        
+                        // Remove agent from tracking set
+                        addedAgents.delete(agentName);
+                        
+                        // Remove the agent item with animation
+                        newAgentItem.style.transition = 'all 0.3s ease-in-out';
+                        newAgentItem.style.opacity = '0';
+                        newAgentItem.style.transform = 'translateY(10px) scale(0.98)';
+                        newAgentItem.style.maxHeight = (newAgentItem.offsetHeight * 0.8) + 'px';
+                        newAgentItem.style.overflow = 'hidden';
+                        
+                        setTimeout(() => {
+                            // Then smoothly collapse height to 0
+                            newAgentItem.style.transition = 'all 0.2s ease-in-out';
+                            newAgentItem.style.maxHeight = '0px';
+                            newAgentItem.style.padding = '0px';
+                            newAgentItem.style.margin = '0px';
+                                  setTimeout(() => {
+                            newAgentItem.remove();
+                            // Update the tray if it's visible - make the agent visible again
+                            if (agentsTray.style.display === 'flex') {
+                                // Find the agent in the tray and make it visible again
+                                const trayAgentItems = document.querySelectorAll('#agents-tray .agent-item');
+                                trayAgentItems.forEach(item => {
+                                    const itemAgentName = item.querySelector('.agent-name').textContent;
+                                    if (itemAgentName === agentName) {
+                                        item.style.display = 'flex';
+                                    }
+                                });
+                            }
+                        }, 200);
+                        }, 300);
+                    });
+                    newAgentItem.appendChild(deleteBin);
+                    
+                    // Add to content section
+                    contentSection.appendChild(newAgentItem);
+                    
+                    // Note: We're no longer hiding the agents tray automatically
+                }
+            }, 2000);
+        });
+    });
+});
