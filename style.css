@@ -456,3 +456,18 @@ h2 {
     border-color: #605e5c; /* Match add-to-plan-btn active border */
     color: #004578; /* Match add-to-plan-btn active text color */
 }
+
+/* Style for agent items that have already been added */
+.agent-already-added {
+    opacity: 0.7;
+}
+
+/* Style for the message when all agents are added */
+.no-agents-message {
+    padding: 24px;
+    text-align: center;
+    color: #605e5c;
+    font-size: 14px;
+    font-style: italic;
+    margin-top: 20px;
+}
